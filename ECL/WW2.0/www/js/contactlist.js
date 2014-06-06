@@ -24,6 +24,10 @@ app.contactList = function() {'use strict';
 	// need to know when this screen is displayed
 	var displayed = false;
 
+	// multi select mode
+	var multi_mode = false;
+	var multi_items = [];
+
 	pub.onDomReady = function() {
 		console.log('contactList.onDomReady()');
 		pub.populateContactList();
@@ -48,6 +52,74 @@ app.contactList = function() {'use strict';
 			app.contactList.populateContactList();
 		}
 	};
+
+	pub.enableMultiSelect = function() {
+		var button = document.getElementById('multiselectButton');
+		multi_mode = true;
+		button.setCaption("Cancel");
+		button.onclick = pub.disableMultiSelect;
+		button.setImage('img/actionbar/select_cancel.png');
+
+		//show pin blast function
+		document.getElementById('actionMultiPIN').show();
+
+		//hide all other actions
+		document.getElementById('actionSearch').hide();
+		document.getElementById('actionAbout').hide();
+		document.getElementById('actionRefresh').hide();
+		document.getElementById('actionTools').hide();
+		document.getElementById('actionPhone').hide();
+
+		document.getElementById('contextCall').hide();
+		document.getElementById('contextEmail').hide();
+		document.getElementById('contextSMS').hide();
+		document.getElementById('contextPIN').hide();
+	}
+
+	pub.disableMultiSelect = function() {
+		var button = document.getElementById('multiselectButton');
+		multi_mode = false;
+		button.setCaption("Select Multiple");
+		button.onclick = pub.enableMultiSelect;
+		button.setImage('img/actionbar/select_more.png');
+
+		for (var i = 0; i < multi_items.length; i++) {
+			var item = multi_items[i];
+			item.classList.remove('bb-bb10-image-list-item-hover');
+			item.classList.remove('bb10Highlight');
+		}
+		multi_items.length = 0;
+
+		//hide pin blast function
+		document.getElementById('actionMultiPIN').hide();
+
+		//show all other actions
+		document.getElementById('actionSearch').show();
+		document.getElementById('actionAbout').show();
+		document.getElementById('actionRefresh').show();
+		document.getElementById('actionTools').show();
+		document.getElementById('actionPhone').show();
+
+		document.getElementById('contextCall').show();
+		document.getElementById('contextEmail').show();
+		document.getElementById('contextSMS').show();
+		document.getElementById('contextPIN').show();
+	}
+
+	pub.onActionMultiPIN = function() {
+		if (multi_items.length > 0) {
+			var pinList = [];
+
+			for (var i = 0; i < multi_items.length; i++) {
+				var item = multi_items[i];
+				var contact = app.model.findContactByName(item.getAttribute('data-bb-title'));
+				pinList.push(contact.bbPin);
+			}
+
+			app.utils.pinMessageMultiple(pinList);
+			pub.disableMultiSelect();
+		}
+	}
 
 	/*=================================================================================
 	 * Show the demo screen with dummy data.
@@ -118,7 +190,25 @@ app.contactList = function() {'use strict';
 		item.setAttribute('data-bb-type', 'item');
 		// Display as bbui.js
 		item.setAttribute('data-bb-title', title);
-		item.setAttribute('onclick', "app.contactList.showDetails('" + title + "')");
+		
+		item.onclick = function() {
+			if (multi_mode) {
+				var index = multi_items.indexOf(item);
+				if (index == -1) {
+					multi_items.push(item);
+				}
+				else {
+					multi_items.splice(index, 1);
+				}
+
+				item.classList.toggle('bb-bb10-image-list-item-hover');
+				item.classList.toggle('bb10Highlight');
+
+			}
+			else {
+				app.contactList.showDetails(title);
+			}
+		}
 
 		if (subTitle) {
 			item.innerHTML = subTitle;

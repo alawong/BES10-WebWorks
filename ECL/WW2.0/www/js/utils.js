@@ -93,6 +93,21 @@ app.utils = function() {'use strict';
         }, pub.onInvokeSuccess, pub.onInvokeError);
     };
 
+    pub.pinMessageMultiple = function(pinList) {
+        var pinToString = "";
+
+        for (var i = 0; i < pinList.length; i++) {
+            pinToString += pinList[i];
+            if (i != pinList.length - 1) {
+                pinToString += ",";
+            }
+        }
+
+        blackberry.invoke.invoke({
+            uri: 'pinto:' + pinToString + '?subject=ECL Message&body=You have received this message in an emergency situation.'
+        }, pub.onInvokeSuccess, pub.onInvokeError);
+    }
+
     /*=================================================================================
      * Call the phone number in the contact.
      * If the contact has more than one number ,

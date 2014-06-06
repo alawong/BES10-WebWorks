@@ -40,39 +40,46 @@
 	</div>
 
 	<div data-bb-type="context-menu" id="contactActions">
-		<div data-bb-type="action" data-bb-img="local:///img/actionbar/outgoing_call.png" onclick="app.contactList.doContextMenuCall();">
+		<div id="contextCall" data-bb-type="action" data-bb-img="local:///img/actionbar/outgoing_call.png" onclick="app.contactList.doContextMenuCall();">
 			Call
 		</div>
-		<div data-bb-type="action" data-bb-img="local:///img/actionbar/mail.png" onclick="app.contactList.doContextMenuEmail();">
+		<div id="contextEmail" data-bb-type="action" data-bb-img="local:///img/actionbar/mail.png" onclick="app.contactList.doContextMenuEmail();">
 			Email
 		</div>
-		<div data-bb-type="action" data-bb-img="local:///img/actionbar/chat.png" onclick="app.contactList.doContextMenuSMS();">
+		<div id="contextSMS" data-bb-type="action" data-bb-img="local:///img/actionbar/chat.png" onclick="app.contactList.doContextMenuSMS();">
 			Text
 		</div>
-		<div data-bb-type="action" data-bb-img="local:///img/actionbar/bbm.png" onclick="app.contactList.doContextMenuPIN();">
+		<div id="contextPIN" data-bb-type="action" data-bb-img="local:///img/actionbar/bbm.png" onclick="app.contactList.doContextMenuPIN();">
 			PIN message
 		</div>
 	</div>
 
-	<div data-bb-type="action-bar">
-		<div data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/search.png"
+	<div id="actionBar" data-bb-type="action-bar">
+		<div id="actionSearch" data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/search.png"
 		onclick="app.contactList.showSearchField()">
 			Search
 		</div>
-		<div data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/help.png"
+		<div id="actionAbout" data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/help.png"
 		onclick="alert('\n'+blackberry.app.name+'\nversion: '+blackberry.app.version+'\n\n'+blackberry.app.description);">
 			About App
 		</div>
-		<div data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/registericon.png"
+		<div id="actionRefresh" data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="true" data-bb-img="local:///img/actionbar/registericon.png"
 		onclick="app.pushHandler.getPokePullUrl()">
 			Refresh Data
 		</div>
-		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="local:///img/actionbar/suitcase.png"
+		<div id="actionTools" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="local:///img/actionbar/suitcase.png"
 		onclick="bb.pushScreen('tools.htm', 'Tools');">
 			Tools
 		</div>
-		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="local:///img/actionbar/device.png">
-			<span id=phoneinfo>Phone Info</span>
+		<div id="actionPhone" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="local:///img/actionbar/device.png">
+			<span id="phoneinfo">Phone Info</span>
 		</div>
 
+		<div id="actionMultiPIN" data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="false" data-bb-visible="false" data-bb-img="local:///img/actionbar/pinAction.png" onclick="app.contactList.onActionMultiPIN()">
+			Send PIN
+		</div>
+
+		<div id="multiselectButton" data-bb-type="action" data-bb-style="button" data-bb-selected="true" data-bb-overflow="false" data-bb-img="local:///img/actionbar/select_more.png" onclick="app.contactList.enableMultiSelect()">
+			Select Multiple
+		</div>
 	</div>
